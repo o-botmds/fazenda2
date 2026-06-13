@@ -1,12 +1,12 @@
-// Inicialização do Supabase (via CDN)
-const supabaseUrl = "https://SEU-PROJETO.supabase.co"; // substitua pelo seu
-const supabaseKey = "CHAVE_PUBLICA"; // substitua pela sua chave anon/public
+// Configuração do Supabase
+const supabaseUrl = "https://SEU-PROJETO.supabase.co"; // substitua pelo seu Project URL
+const supabaseKey = "CHAVE_PUBLICA"; // substitua pela sua anon/public key
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const list = document.getElementById("animalList");
 const searchBox = document.getElementById("searchBox");
 
-// Função para renderizar lista
+// Renderizar lista
 function renderList(animais) {
   list.innerHTML = "";
   animais.forEach(animal => {
@@ -22,7 +22,7 @@ function renderList(animais) {
   });
 }
 
-// Carregar animais do banco
+// Carregar animais
 async function carregarAnimais() {
   const { data, error } = await supabase
     .from("animais")
