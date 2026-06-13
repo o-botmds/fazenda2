@@ -1,12 +1,12 @@
-// Configuração do Supabase
-const supabaseUrl = "https://SEU-PROJETO.supabase.co";
-const supabaseKey = "CHAVE_PUBLICA";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// Inicialização do Supabase (via CDN)
+const supabaseUrl = "https://SEU-PROJETO.supabase.co"; // substitua pelo seu
+const supabaseKey = "CHAVE_PUBLICA"; // substitua pela sua chave anon/public
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const list = document.getElementById("animalList");
 const searchBox = document.getElementById("searchBox");
 
-// Renderizar lista
+// Função para renderizar lista
 function renderList(animais) {
   list.innerHTML = "";
   animais.forEach(animal => {
@@ -22,7 +22,7 @@ function renderList(animais) {
   });
 }
 
-// Carregar animais
+// Carregar animais do banco
 async function carregarAnimais() {
   const { data, error } = await supabase
     .from("animais")
@@ -30,12 +30,13 @@ async function carregarAnimais() {
     .order("numero", { ascending: true });
 
   if (error) {
-    console.error(error);
+    console.error("Erro ao carregar:", error);
     return;
   }
   renderList(data);
 }
 
+// Chamada inicial
 carregarAnimais();
 
 // Busca por número
@@ -58,7 +59,7 @@ searchBox.addEventListener("input", async () => {
   renderList(data || []);
 });
 
-// Atualizar vacina
+// Atualizar vacina ao marcar checkbox
 list.addEventListener("change", async (e) => {
   if (e.target.type === "checkbox") {
     const animalId = e.target.dataset.animal;
@@ -72,6 +73,8 @@ list.addEventListener("change", async (e) => {
       .update({ [coluna]: aplicada })
       .eq("id", animalId);
 
-    if (error) console.error(error);
+    if (error) {
+      console.error("Erro ao atualizar vacina:", error);
+    }
   }
 });
