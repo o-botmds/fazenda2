@@ -1,5 +1,5 @@
 // Configuração do Supabase
-const supabaseUrl = "https://SEU-PROJETO.supabase.co"; // substitua pelo seu Project URL
+const supabaseUrl = "https://mpslimsbytczmksllnys.supabase.co"; // substitua pelo seu Project URL
 const supabaseKey = "CHAVE_PUBLICA"; // substitua pela sua anon/public key
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
