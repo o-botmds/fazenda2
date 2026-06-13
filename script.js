@@ -1,14 +1,12 @@
-import { createClient } from '@supabase/supabase-js';
-
 // Configuração do Supabase
 const supabaseUrl = "https://SEU-PROJETO.supabase.co";
 const supabaseKey = "CHAVE_PUBLICA";
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 const list = document.getElementById("animalList");
 const searchBox = document.getElementById("searchBox");
 
-// Função para renderizar lista
+// Renderizar lista
 function renderList(animais) {
   list.innerHTML = "";
   animais.forEach(animal => {
@@ -24,11 +22,12 @@ function renderList(animais) {
   });
 }
 
-// Carregar animais do banco
+// Carregar animais
 async function carregarAnimais() {
   const { data, error } = await supabase
     .from("animais")
-    .select("id, numero, vacina1, vacina2");
+    .select("id, numero, vacina1, vacina2")
+    .order("numero", { ascending: true });
 
   if (error) {
     console.error(error);
@@ -39,18 +38,27 @@ async function carregarAnimais() {
 
 carregarAnimais();
 
-// Busca
+// Busca por número
 searchBox.addEventListener("input", async () => {
   const query = searchBox.value.trim();
-  const { data } = await supabase
-    .from("animais")
-    .select("id, numero, vacina1, vacina2")
-    .ilike("numero", `%${query}%`);
+  let data;
 
-  renderList(data);
+  if (query === "") {
+    ({ data } = await supabase
+      .from("animais")
+      .select("id, numero, vacina1, vacina2")
+      .order("numero", { ascending: true }));
+  } else {
+    ({ data } = await supabase
+      .from("animais")
+      .select("id, numero, vacina1, vacina2")
+      .eq("numero", parseInt(query)));
+  }
+
+  renderList(data || []);
 });
 
-// Atualizar vacina ao marcar checkbox
+// Atualizar vacina
 list.addEventListener("change", async (e) => {
   if (e.target.type === "checkbox") {
     const animalId = e.target.dataset.animal;
