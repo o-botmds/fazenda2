@@ -1,6 +1,6 @@
 // Configuração do Supabase
 const supabaseUrl = "https://mpslimsbytczmksllnys.supabase.co"; // substitua pelo seu Project URL
-const supabaseKey = "CHAVE_PUBLICA"; // substitua pela sua anon/public key
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wc2xpbXNieXRjem1rc2xsbnlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMzQzNDksImV4cCI6MjA5NjkxMDM0OX0.ZdEXJB533zYJQPI145juiuey9LNu2N_Ps0X3JksFs-8"; // substitua pela sua anon/public key
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 const list = document.getElementById("animalList");
